@@ -11,6 +11,12 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
+/**
+ * 
+ * Client
+ * Entidad de la base de datos que representa a los clientes que hacen compras de productos
+ */
+
 @EqualsAndHashCode 
 @ToString 
 @Setter 
