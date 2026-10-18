@@ -9,6 +9,11 @@ import com.johan.ferreteria.dto.ClientRequestDTO;
 import com.johan.ferreteria.dto.ClientResponseDTO;
 import com.johan.ferreteria.entities.Client;
 
+/**
+ * 
+ * ClientService
+ * Firma de métodos para el servicio de clientes
+ */
 public interface ClientService {
 
 
@@ -41,4 +46,9 @@ public interface ClientService {
     ClientResponseDTO update(Long id, ClientRequestDTO client);
 
     void deleteById(Long id);
+
+    ClientResponseDTO findById(Long id);
+
+    //Retorna lista de los clientes que tengan la cadena dada en su nombre, no importa si es una sola letra.
+    List<ClientResponseDTO> findByNameContaining(String name);
 }
