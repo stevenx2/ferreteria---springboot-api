@@ -85,8 +85,8 @@ INSERT INTO clients (name, phone_number, address) VALUES
 -- ==========================================
 INSERT INTO products (name, price, stock, supplier_id) VALUES
 ('Cemento gris x 50kg', 32000.00, 150, 6),
-('Varilla corrugada 3/8"', 25000.00, 300, 4),
-('Taladro percutor 1/2"', 185000.00, 25, 2),
+('Varilla corrugada 3/8', 25000.00, 300, 4),
+('Taladro percutor 1/2', 185000.00, 25, 2),
 ('Pintura vinilo blanca 1 galón', 65000.00, 40, 5),
 ('Juego de destornilladores x 6 pzas', 28500.00, 60, 1),
 ('Caja de tornillos autorroscantes x 100', 12000.00, 120, 3);
