@@ -28,9 +28,10 @@ public class Client {
     @Id
     @GeneratedValue (strategy = GenerationType.IDENTITY)
     @Column(name = "client_id")
-    private Long client_id;
+    private Long id;
 
-    @Column (name = "name")
+
+    @Column (name = "name",unique = true)
     private String name;
 
     @Column (name = "phone_number")

@@ -15,7 +15,7 @@ import com.johan.ferreteria.dto.SupplierResponseDTO;
 import com.johan.ferreteria.entities.Supplier;
 import com.johan.ferreteria.repositories.SupplierRepo;
 import com.johan.ferreteria.services.SupplierService;
-import com.johan.problem.ResourceNotFoundException;
+import com.johan.ferreteria.problem.ResourceNotFoundException;
 
 /**
  * 

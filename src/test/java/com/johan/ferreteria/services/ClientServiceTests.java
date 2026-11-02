@@ -8,7 +8,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import com.johan.ferreteria.dto.ClientRequestDTO;
 import com.johan.ferreteria.dto.ClientResponseDTO;
-import com.johan.problem.ResourceNotFoundException;
+import com.johan.ferreteria.problem.ResourceNotFoundException;
 
 import jakarta.transaction.Transactional;
 import static org.junit.jupiter.api.Assertions.*;

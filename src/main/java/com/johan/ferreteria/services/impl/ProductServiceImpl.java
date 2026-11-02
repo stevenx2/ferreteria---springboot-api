@@ -17,7 +17,7 @@ import com.johan.ferreteria.entities.Supplier;
 import com.johan.ferreteria.repositories.ProductRepo;
 import com.johan.ferreteria.repositories.SupplierRepo;
 import com.johan.ferreteria.services.ProductService;
-import com.johan.problem.ResourceNotFoundException;
+import com.johan.ferreteria.problem.ResourceNotFoundException;
 
 /**
  * implemantación del servicio de productos
@@ -41,7 +41,7 @@ public class ProductServiceImpl implements ProductService {
      * elimina un proveedor por su id, si el id no pertenece a ningún proveedor
      * lanza una excepción de tipo ResourceNotFound
      * 
-     * @see package {@link com.johan.problem.ResourceNotFoundException}
+     * @see package {@link ResourceNotFoundException}
      */
     @Override
     public void deleteById(Long id) {

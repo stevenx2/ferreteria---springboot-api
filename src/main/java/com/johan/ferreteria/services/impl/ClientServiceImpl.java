@@ -1,7 +1,6 @@
 package com.johan.ferreteria.services.impl;
 
 import java.util.List;
-import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 
 import org.springframework.context.MessageSource;
@@ -16,7 +15,7 @@ import com.johan.ferreteria.dto.ClientResponseDTO;
 import com.johan.ferreteria.entities.Client;
 import com.johan.ferreteria.repositories.ClientRepo;
 import com.johan.ferreteria.services.ClientService;
-import com.johan.problem.ResourceNotFoundException;
+import com.johan.ferreteria.problem.ResourceNotFoundException;
 
 /**
  * 

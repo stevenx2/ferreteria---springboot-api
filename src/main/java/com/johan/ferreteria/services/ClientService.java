@@ -27,7 +27,7 @@ public interface ClientService {
      */
     default ClientResponseDTO mapEntityToResponseDto(Client client) {
         ClientResponseDTO response = new ClientResponseDTO();
-        response.setClient_id(client.getClient_id());
+        response.setClient_id(client.getId());
         response.setAddress(client.getAddress());
         response.setName(client.getName());
         response.setPhone_number(client.getPhone_number());

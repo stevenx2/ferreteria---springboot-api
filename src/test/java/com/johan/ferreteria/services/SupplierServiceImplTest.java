@@ -13,7 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.johan.ferreteria.dto.SupplierRequestDTO;
 import com.johan.ferreteria.dto.SupplierResponseDTO;
-import com.johan.problem.ResourceNotFoundException;
+import com.johan.ferreteria.problem.ResourceNotFoundException;
 
 @SpringBootTest
 @Transactional

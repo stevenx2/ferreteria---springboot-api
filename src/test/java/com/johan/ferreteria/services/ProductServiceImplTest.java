@@ -11,7 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.johan.ferreteria.dto.ProductRequestDTO;
 import com.johan.ferreteria.dto.ProductResponseDTO;
-import com.johan.problem.ResourceNotFoundException;
+import com.johan.ferreteria.problem.ResourceNotFoundException;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest
