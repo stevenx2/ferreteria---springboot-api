@@ -13,16 +13,6 @@ import java.util.List;
  */
 public interface SaleService {
 
-    /**
-     * función de soporte para mapear la entidad de Sale a su DTO de respuestas
-     * @param sale la instancia proveniente de la base de datos
-     * @return el objeto DTO
-     */
-    default SaleResponseDTO mapEntityToResponseDto(Sale sale){
-        return new SaleResponseDTO(sale.getId(),sale.getDate(),sale.getClient().getId());
-    }
-
-
 
     List<SaleResponseDTO> findAll();
     Page<SaleResponseDTO> findAllByPage(Pageable pageable);

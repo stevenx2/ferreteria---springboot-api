@@ -7,13 +7,22 @@ import java.util.List;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.jdbc.Sql;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.johan.ferreteria.dto.ProductRequestDTO;
 import com.johan.ferreteria.dto.ProductResponseDTO;
 import com.johan.ferreteria.problem.ResourceNotFoundException;
 import static org.assertj.core.api.Assertions.assertThat;
+import org.springframework.test.annotation.DirtiesContext;
 
+@Sql(
+        scripts = {
+                "classpath:testcontainers/clean-data.sql",
+                "classpath:testcontainers/data.sql"
+        },
+        executionPhase = Sql.ExecutionPhase.BEFORE_TEST_CLASS
+)
 @SpringBootTest
 @Transactional
 public class ProductServiceImplTest {

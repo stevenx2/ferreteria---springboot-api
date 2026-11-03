@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Import;
+import org.springframework.test.context.jdbc.Sql;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
@@ -15,10 +16,18 @@ import java.time.Month;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
+import org.springframework.test.annotation.DirtiesContext;
 
 /**
  * tests para el servicio de ventas
  */
+@Sql(
+        scripts = {
+                "classpath:testcontainers/clean-data.sql",
+                "classpath:testcontainers/data.sql"
+        },
+        executionPhase = Sql.ExecutionPhase.BEFORE_TEST_CLASS
+)
 @Transactional
 @SpringBootTest
 public class SaleServiceImplTest {
@@ -52,6 +61,7 @@ public class SaleServiceImplTest {
 
         assertNotNull(sales);
         assertEquals(1,sales.size()); // solo existe una venta a ese cliente
+        assertEquals(1130000,sales.getFirst().getTotalPrice()); // el total dela venta es 1.130.000
         assertEquals(2026,sales.getFirst().getDate().getYear());
         assertEquals(Month.JUNE,sales.getFirst().getDate().getMonth());
         assertEquals(1,sales.getFirst().getDate().getDayOfMonth());

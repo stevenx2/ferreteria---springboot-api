@@ -1,11 +1,14 @@
 package com.johan.ferreteria.services.impl;
 
+import com.johan.ferreteria.dto.SaleDetailResponseDTO;
 import com.johan.ferreteria.dto.SaleRequestDTO;
 import com.johan.ferreteria.dto.SaleResponseDTO;
 import com.johan.ferreteria.entities.Client;
 import com.johan.ferreteria.entities.Sale;
+import com.johan.ferreteria.entities.SaleDetail;
 import com.johan.ferreteria.problem.ResourceNotFoundException;
 import com.johan.ferreteria.repositories.ClientRepo;
+import com.johan.ferreteria.repositories.SaleDetailRepo;
 import com.johan.ferreteria.repositories.SaleRepo;
 import com.johan.ferreteria.services.SaleService;
 import org.springframework.context.MessageSource;
@@ -28,13 +31,15 @@ public class SaleServiceImpl implements SaleService {
 
     private final SaleRepo saleRepo;
     private final ClientRepo clientRepo;
+    private final SaleDetailRepo saleDetailRepo;
     private final MessageSource messageSource;
 
 
-    public SaleServiceImpl(SaleRepo saleRepo, MessageSource messageSource, ClientRepo clientRepo) {
+    public SaleServiceImpl(SaleRepo saleRepo, MessageSource messageSource, ClientRepo clientRepo, SaleDetailRepo saleDetailRepo) {
         this.saleRepo = saleRepo;
         this.messageSource = messageSource;
         this.clientRepo = clientRepo;
+        this.saleDetailRepo = saleDetailRepo;
     }
 
     @Transactional(readOnly = true)
@@ -42,7 +47,7 @@ public class SaleServiceImpl implements SaleService {
     public List<SaleResponseDTO> findAll() {
         return saleRepo.findAll()
                 .stream()
-                .map(this::mapEntityToResponseDto)
+                .map(this::mapToSaleResponseDto)
                 .toList();
     }
 
@@ -51,7 +56,7 @@ public class SaleServiceImpl implements SaleService {
     @Override
     public Page<SaleResponseDTO> findAllByPage(Pageable pageable) {
         return saleRepo.findAll(pageable)
-                .map(this::mapEntityToResponseDto);
+                .map(this::mapToSaleResponseDto);
     }
 
 
@@ -68,12 +73,13 @@ public class SaleServiceImpl implements SaleService {
                         saleRepo.findByClient_Id(id).spliterator(),
                         false
                 )
-                .map(this::mapEntityToResponseDto) //mapeo los objetos a una lista de tipo SaleResponseDTO
+                .map(this::mapToSaleResponseDto) //mapeo los objetos a una lista de tipo SaleResponseDTO
                 .toList();
     }
 
     /**
      * retorna todas las compras realizas por un cliente
+     *
      * @param name nombre del cliente. El nombre debe ser exacto, contando mayúsculas y minúsculas
      * @return una lista de tipo SaleResponseDTO con todas las compras de un cliente
      */
@@ -84,7 +90,7 @@ public class SaleServiceImpl implements SaleService {
                         saleRepo.findByClient_Name(name).spliterator(),
                         false
                 )
-                .map(this::mapEntityToResponseDto) //mapeo los objetos a una lista de tipo SaleResponseDTO
+                .map(this::mapToSaleResponseDto) //mapeo los objetos a una lista de tipo SaleResponseDTO
                 .toList();
     }
 
@@ -96,7 +102,7 @@ public class SaleServiceImpl implements SaleService {
                         messageSource.getMessage("resource.notfound", new Object[]{id}, LocaleContextHolder.getLocale())
                 ));
 
-        return this.mapEntityToResponseDto(found);
+        return this.mapToSaleResponseDto(found);
     }
 
     @Override
@@ -117,13 +123,12 @@ public class SaleServiceImpl implements SaleService {
         Sale saved = saleRepo.save(newSale);
 
         //mapeo del objeto retornado a su respectivo DTO
-        return this.mapEntityToResponseDto(saved);
+        return this.mapToSaleResponseDto(saved);
     }
 
 
-
     @Override
-    public SaleResponseDTO update(Long id,SaleRequestDTO sale) {
+    public SaleResponseDTO update(Long id, SaleRequestDTO sale) {
 
         //busco la venta en la base de datos o lanzo encepción si no se encuentra
         Sale saleFromDB = saleRepo.findById(id)
@@ -144,13 +149,44 @@ public class SaleServiceImpl implements SaleService {
          * y retorno el nuevo objeto
          */
         Client oldClient = saleFromDB.getClient();
-        if(!oldClient.equals(newClient)){
+        if (!oldClient.equals(newClient)) {
             saleFromDB.setClient(newClient); //asigno el nuevo cliente
             Sale updated = saleRepo.save(saleFromDB);  //actualizo la venta
-            return this.mapEntityToResponseDto(updated); // retorno la venta actualizada
+            return this.mapToSaleResponseDto(updated); // retorno la venta actualizada
         }
 
         // si no se cambió nada de la venta,entonces retorno el objeto anterior sin actualizar
-        return this.mapEntityToResponseDto(saleFromDB);
+        return this.mapToSaleResponseDto(saleFromDB);
+    }
+
+
+    /**
+     * mapea un objeto de tipo Sale a uno de tipo SaleResponseDTO, que esel DTO de respuestas en la api para este objeto.
+     *
+     * @param sale el objeto proveniente de la base de datos que representa a una venta
+     * @return un objeto de tipo SaleResponseDTO que tienen los campos de Sale que quiere exponer al cliente
+     * @see com.johan.ferreteria.dto.SaleResponseDTO
+     * @see com.johan.ferreteria.entities.Sale
+     */
+    private SaleResponseDTO mapToSaleResponseDto(Sale sale) {
+        SaleResponseDTO maped = new SaleResponseDTO();
+        maped.setId(sale.getId());
+        maped.setClientId(sale.getClient().getId());
+        maped.setDate(sale.getDate());
+
+
+        //Sumo el precio unitario de cada detalle para obtener el precio total de la venta y luego lo asigno al objeto
+        double totalPrice = StreamSupport.stream(
+                        saleDetailRepo.findBySale_Id(sale.getId()).spliterator(),
+                        false
+                )
+                .mapToDouble(detail ->
+                        detail.getUnit_price() * detail.getQuantity() // multiplico el precio unitario de cada producto más la cantidad comprada
+                )
+                .sum();
+
+        maped.setTotalPrice(totalPrice);
+
+        return maped;
     }
 }

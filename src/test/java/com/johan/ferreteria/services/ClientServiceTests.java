@@ -11,15 +11,26 @@ import com.johan.ferreteria.dto.ClientResponseDTO;
 import com.johan.ferreteria.problem.ResourceNotFoundException;
 
 import jakarta.transaction.Transactional;
+import org.springframework.test.annotation.DirtiesContext;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.List;
+import org.springframework.test.annotation.DirtiesContext;
+import org.springframework.test.context.jdbc.Sql;
 
 /**
  * 
  * ClientServiceTests
  * Tests del servicio de clientes
  */
+@Sql(
+        scripts = {
+                "classpath:testcontainers/clean-data.sql",
+                "classpath:testcontainers/data.sql"
+        },
+        executionPhase = Sql.ExecutionPhase.BEFORE_TEST_CLASS
+)
 @SpringBootTest
 @Transactional
 public class ClientServiceTests {

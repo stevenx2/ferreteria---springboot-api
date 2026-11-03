@@ -9,12 +9,21 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.test.context.jdbc.Sql;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.johan.ferreteria.dto.SupplierRequestDTO;
 import com.johan.ferreteria.dto.SupplierResponseDTO;
 import com.johan.ferreteria.problem.ResourceNotFoundException;
+import org.springframework.test.annotation.DirtiesContext;
 
+@Sql(
+        scripts = {
+                "classpath:testcontainers/clean-data.sql",
+                "classpath:testcontainers/data.sql"
+        },
+        executionPhase = Sql.ExecutionPhase.BEFORE_TEST_CLASS
+)
 @SpringBootTest
 @Transactional
 public class SupplierServiceImplTest {

@@ -19,4 +19,8 @@ public class SaleResponseDTO {
     private LocalDateTime date;
 
     private Long clientId;
+
+    private double totalPrice;
+
+
 }
