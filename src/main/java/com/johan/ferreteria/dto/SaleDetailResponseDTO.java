@@ -20,5 +20,5 @@ public class SaleDetailResponseDTO {
 
     private int quantity;
 
-    private float unit_price;
+    private double unit_price;
 }

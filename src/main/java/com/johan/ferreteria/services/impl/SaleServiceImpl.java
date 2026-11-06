@@ -181,7 +181,7 @@ public class SaleServiceImpl implements SaleService {
                         false
                 )
                 .mapToDouble(detail ->
-                        detail.getUnit_price() * detail.getQuantity() // multiplico el precio unitario de cada producto más la cantidad comprada
+                        detail.getUnitPrice() * detail.getQuantity() // multiplico el precio unitario de cada producto más la cantidad comprada
                 )
                 .sum();
 

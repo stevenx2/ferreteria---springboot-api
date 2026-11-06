@@ -3,6 +3,9 @@ package com.johan.ferreteria.repositories;
 import com.johan.ferreteria.entities.SaleDetail;
 import org.springframework.data.jpa.repository.JpaRepository;
 
+/**
+ * repositorio de los detalles de venta a clientes
+ */
 public interface SaleDetailRepo extends JpaRepository<SaleDetail,Long> {
 
     /**
@@ -14,4 +17,8 @@ public interface SaleDetailRepo extends JpaRepository<SaleDetail,Long> {
      */
     Iterable<SaleDetail> findBySale_Id(Long id);
 
+    Iterable<SaleDetail> findByUnitPriceBetween(float minPrice,float maxPrice);
+
+    Iterable<SaleDetail> findByUnitPriceGreaterThan(float price);
+    Iterable<SaleDetail> findByUnitPriceLessThan(float price);
 }

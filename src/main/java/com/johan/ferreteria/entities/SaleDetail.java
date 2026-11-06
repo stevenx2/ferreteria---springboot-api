@@ -42,7 +42,7 @@ public class SaleDetail {
     private int quantity;
 
     @Column (name = "unit_price")
-    private float unit_price;
+    private double unitPrice;
 
 
 }
