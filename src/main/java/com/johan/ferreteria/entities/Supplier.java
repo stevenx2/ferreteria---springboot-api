@@ -34,7 +34,7 @@ public class Supplier {
     private Long id;
 
     @EqualsAndHashCode.Include
-    @Column(name = "name")
+    @Column(name = "name",unique = true)
     private String name;
 
     @EqualsAndHashCode.Include
